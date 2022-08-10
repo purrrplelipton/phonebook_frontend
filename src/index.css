@@ -1,0 +1,97 @@
+*::before,
+*,
+*::after {
+  box-sizing: border-box;
+  outline: 1px solid transparent;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #606060;
+  margin: 0;
+  padding: 2rem;
+  font-family: SF Pro Text;
+  box-sizing: border-box;
+}
+
+#root {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+h1 {
+  color: #6194bc;
+  width: max-content;
+  border-bottom: 4px solid;
+  border-right: 4px solid;
+  padding-right: 5px;
+  padding-bottom: 3px;
+}
+
+form {
+  min-width: max-content;
+  max-width: 50%;
+}
+
+form div {
+  display: flex;
+  align-items: center;
+}
+
+form div input {
+  margin: 5px 10px;
+  font-size: 1rem;
+}
+
+form div label {
+  font-weight: 500;
+  margin: 5px 10px;
+}
+
+form div input[for="address"] {
+  width: 38ch;
+  height: 2rem;
+  padding: 0 8px;
+}
+
+.person {
+  width: max-content;
+  padding-right: 20px;
+}
+
+.person > p {
+  color: #a5d1f3;
+  display: inline-block;
+  margin: 10px 20px;
+}
+
+.person .contact-name {
+  text-transform: uppercase;
+  background-color: #202124;
+  padding: 2px 4px;
+}
+
+.phonebook-entries {
+  max-height: 18rem;
+  overflow-y: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.phonebook-entries::-webkit-scrollbar {
+  width: 10px;
+}
+
+.phonebook-entries::-webkit-scrollbar-track {
+  background-color: #202124;
+}
+.phonebook-entries::-webkit-scrollbar-thumb {
+  background-color: #6194bc;
+}

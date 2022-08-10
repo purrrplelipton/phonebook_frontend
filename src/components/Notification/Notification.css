@@ -1,0 +1,42 @@
+.pop-up {
+  position: absolute;
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 12px;
+  border-color: transparent;
+  color: transparent;
+  background-color: transparent;
+  top: 8px;
+  left: 37%;
+  padding: 12px 24px;
+  max-width: 32ch;
+  font-size: 1.25rem;
+  transform: translateY(-200%);
+}
+
+@keyframes popDown {
+  0% {
+    transform: translateY(-200%);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(0);
+  }
+  90% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-200%);
+  }
+}
