@@ -45,12 +45,12 @@ form div {
   align-items: center;
 }
 
-form div input {
+input {
   margin: 5px 10px;
   font-size: 1rem;
 }
 
-form div label {
+label {
   font-weight: 500;
   margin: 5px 10px;
 }
