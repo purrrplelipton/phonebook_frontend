@@ -24,7 +24,7 @@ const App = () => {
         setErrorMessage({ success: false, message: error.message });
         setTimeout(
           () => setErrorMessage({ success: null, message: null }),
-          3000
+          3700
         );
       });
   }, []);
@@ -32,24 +32,38 @@ const App = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (
-      persons.find(
-        (p) =>
-          p.name.toLowerCase() === name.toLowerCase() &&
-          p.number.replace(/\D/g, "") !== number.replace(/\D/g, "")
-      )
-    ) {
-      const confirmChange = window.confirm(
-        `${name.toUpperCase()} is already in the phonebook, replace  number ?`
+    const checkPerson = persons.find(
+      (prsn) => prsn.name.toLowerCase() === name.toLowerCase()
+    );
+
+    const newPerson = {
+      name: name,
+      number: number,
+      email: email,
+      address: address,
+      birthdate: birthdate,
+      gender: gender,
+      id: persons.length + 1,
+      date: new Date(),
+    };
+
+    if (checkPerson) {
+      console.log(
+        Object.keys(newPerson).forEach((x) => {
+          checkPerson[x]
+            ? console.log(checkPerson[x])
+            : console.log("personObj doesnt have", x, "property");
+        })
       );
+
+      const confirmChange = window.confirm(
+        `${checkPerson.name.toUpperCase()} already in the phonebook, replace changed details ?`
+      );
+
       if (confirmChange) {
-        const personToChange = persons.find(
-          (p) => p.name.toLowerCase() === name.toLowerCase()
-        );
-        const id = personToChange.id;
-        const newPerson = { ...personToChange, number: number };
+        const newPerson = { ...checkPerson, number: number };
         personsService
-          .update(id, newPerson)
+          .update(checkPerson.id, newPerson)
           .then((changedPerson) => {
             setPersons([
               ...persons.map((p) => (p.id !== id ? p : changedPerson)),
@@ -58,9 +72,10 @@ const App = () => {
               success: true,
               message: `changed ${personToChange.name.toUpperCase()}'s number`,
             });
-            setTimeout(() => {
-              setErrorMessage({ success: null, message: null });
-            }, 3000);
+            setTimeout(
+              () => setErrorMessage({ success: null, message: null }),
+              3700
+            );
           })
           .catch((err) => {
             const {
@@ -80,17 +95,17 @@ const App = () => {
             });
             setTimeout(
               () => setErrorMessage({ success: null, message: null }),
-              3000
+              37000
             );
           });
       } else {
         setErrorMessage({
           success: false,
-          message: `declined replacing ${name.toUpperCase()}'s number`,
+          message: `declined replacing ${name.toUpperCase()}'s details`,
         });
         setTimeout(
           () => setErrorMessage({ success: null, message: null }),
-          3000
+          3700
         );
       }
     } else if (
@@ -102,7 +117,7 @@ const App = () => {
         id: persons.length + 1,
       };
       personsService
-        .create(personObject)
+        .create(newPerson)
         .then((createdPerson) => {
           setPersons([...persons, createdPerson]);
           setErrorMessage({
@@ -113,7 +128,7 @@ const App = () => {
           setNumber("");
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
-            3000
+            3700
           );
         })
         .catch((err) => {
@@ -124,14 +139,14 @@ const App = () => {
           });
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
-            3000
+            3700
           );
         });
     } else {
       setErrorMessage({ success: false, message: "duplicate info" });
       return setTimeout(
         () => setErrorMessage({ success: null, message: null }),
-        3000
+        3700
       );
     }
   };
@@ -152,14 +167,14 @@ const App = () => {
           });
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
-            3000
+            3700
           );
         })
         .catch((err) => {
           setErrorMessage({ success: false, message: err.message });
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
-            3000
+            3700
           );
         });
     } else {
@@ -169,7 +184,7 @@ const App = () => {
       });
       return setTimeout(
         () => setErrorMessage({ success: null, message: null }),
-        3000
+        3700
       );
     }
   };

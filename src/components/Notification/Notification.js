@@ -3,7 +3,7 @@ import "./Notification.css";
 
 const errStyle = {
   animationName: "popDown",
-  animationDuration: "2.8s",
+  animationDuration: "3.5s",
   animationTimingFunction: "ease-in-out",
 };
 
