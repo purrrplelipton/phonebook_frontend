@@ -51,21 +51,37 @@ const App = () => {
         personsService
           .update(id, newPerson)
           .then((changedPerson) => {
-            setPersons(persons.map((p) => (p.id !== id ? p : changedPerson)));
+            setPersons([
+              ...persons.map((p) => (p.id !== id ? p : changedPerson)),
+            ]);
             setErrorMessage({
               success: true,
-              message: `changed ${newPerson.name.toUpperCase()}'s number`,
+              message: `changed ${personToChange.name.toUpperCase()}'s number`,
             });
             setTimeout(() => {
               setErrorMessage({ success: null, message: null });
-            });
+            }, 3000);
           })
-          .catch((error) => {
+          .catch((err) => {
+            const {
+              ok,
+              code,
+              codeName,
+              keyPattern,
+              keyValue,
+              $clusterTime,
+              operationtime,
+            } = err.response.data.error;
             setErrorMessage({
               success: false,
-              message: error.message,
+              message: `a contact with ${Object.keys(keyValue)[0]}: ${
+                Object.values(keyValue)[0]
+              }, already exists`,
             });
-            setTimeout(() => setErrorMessage({ success: null, message: null }));
+            setTimeout(
+              () => setErrorMessage({ success: null, message: null }),
+              3000
+            );
           });
       } else {
         setErrorMessage({
@@ -83,6 +99,7 @@ const App = () => {
       const personObject = {
         name: name,
         number: number,
+        id: persons.length + 1,
       };
       personsService
         .create(personObject)
@@ -90,7 +107,7 @@ const App = () => {
           setPersons([...persons, createdPerson]);
           setErrorMessage({
             success: true,
-            message: `added ${name.toUpperCase()}`,
+            message: `added ${personObject.name.toUpperCase()}`,
           });
           setName("");
           setNumber("");
@@ -100,18 +117,17 @@ const App = () => {
           );
         })
         .catch((err) => {
-          console.log(err.response);
-          // const [, , message] = err.response.data.error.split(/(:\s)/u);
+          console.log(err.response.data);
+          const [, , message] = err.response.data.error.split(/:\s/);
           setErrorMessage({
             success: false,
-            message: "somethig went wrong",
+            message: message.split(/,\s/)[0],
           });
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
             3000
           );
         });
-      event.target.reset();
     } else {
       setErrorMessage({ success: false, message: "duplicate info" });
       return setTimeout(
@@ -132,7 +148,7 @@ const App = () => {
         .then(() => {
           setPersons([...persons.filter((p) => p.id !== id)]);
           setErrorMessage({
-            success: false,
+            success: true,
             message: `removed ${person.name.toUpperCase()} from phonebook`,
           });
           setTimeout(
@@ -140,8 +156,8 @@ const App = () => {
             3000
           );
         })
-        .catch((error) => {
-          setErrorMessage({ success: false, message: error.message });
+        .catch((err) => {
+          setErrorMessage({ success: false, message: err.message });
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
             3000

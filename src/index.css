@@ -21,7 +21,7 @@ body {
   height: 100%;
   position: relative;
   padding: 1rem;
-  overflow: hidden;
+  overflow: auto;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 12px;
 }
@@ -61,6 +61,29 @@ form div input[for="address"] {
   padding: 0 8px;
 }
 
+button {
+  background-color: #a5d1f3;
+  color: #202124;
+  border: none;
+  border-radius: 4px;
+  font-size: inherit;
+  padding: 4px 8px;
+}
+
+form > button {
+  padding: 8px 16px;
+  margin-top: 2rem;
+  font-weight: 700;
+}
+
+button:hover,
+button:active,
+button:focus,
+button:focus-within {
+  background-color: #202124;
+  color: #a5d1f3;
+}
+
 .person {
   width: max-content;
   padding-right: 20px;
@@ -85,13 +108,13 @@ form div input[for="address"] {
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.phonebook-entries::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 10px;
 }
 
-.phonebook-entries::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background-color: #202124;
 }
-.phonebook-entries::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: #6194bc;
 }
