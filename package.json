@@ -19,9 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "build:ui": "npm run build && move build ../phonebookApp_backend",
-    "logs:prod": "heroku logs --tail",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:ui": "npm run build && move build ../phonebookApp_backend"
   },
   "proxy": "http://localhost:8888",
   "eslintConfig": {

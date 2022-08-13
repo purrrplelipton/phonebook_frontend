@@ -10,10 +10,6 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [gender, setGender] = useState("non-binary");
   const [filterQuery, setFilterQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState({
     success: null,
@@ -70,27 +66,36 @@ const App = () => {
           .update(checkPerson.id, newPerson)
           .then((changedPerson) => {
             setPersons([
-              ...persons.map((p) =>
-                p.id !== checkPerson.id ? p : changedPerson
-              ),
+              ...persons.map((p) => (p.id !== id ? p : changedPerson)),
             ]);
             setErrorMessage({
               success: true,
-              message: `changed ${checkPerson.name.toUpperCase()}'s ${"number"}`,
+              message: `changed ${personToChange.name.toUpperCase()}'s number`,
             });
             setTimeout(
               () => setErrorMessage({ success: null, message: null }),
               3700
             );
           })
-          .catch((error) => {
+          .catch((err) => {
+            const {
+              ok,
+              code,
+              codeName,
+              keyPattern,
+              keyValue,
+              $clusterTime,
+              operationtime,
+            } = err.response.data.error;
             setErrorMessage({
               success: false,
-              message: error.message,
+              message: `a contact with ${Object.keys(keyValue)[0]}: ${
+                Object.values(keyValue)[0]
+              }, already exists`,
             });
             setTimeout(
               () => setErrorMessage({ success: null, message: null }),
-              3700
+              37000
             );
           });
       } else {
@@ -103,37 +108,46 @@ const App = () => {
           3700
         );
       }
-    } else {
+    } else if (
+      !persons.find((p) => p.name.toLowerCase() === name.toLowerCase())
+    ) {
+      const personObject = {
+        name: name,
+        number: number,
+        id: persons.length + 1,
+      };
       personsService
         .create(newPerson)
         .then((createdPerson) => {
           setPersons([...persons, createdPerson]);
           setErrorMessage({
             success: true,
-            message: `added ${name.toUpperCase()}`,
+            message: `added ${personObject.name.toUpperCase()}`,
           });
           setName("");
           setNumber("");
-          setEmail("");
-          setAddress("");
-          setBirthdate("");
-          setGender("non-binary");
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
             3700
           );
         })
         .catch((err) => {
-          const [, , message] = err.response.data.error.split(/(:\s)/u);
+          const [, , message] = err.response.data.error.split(/:\s/);
           setErrorMessage({
             success: false,
-            message: message.split(/,\s/u)[0],
+            message: message.split(/,\s/)[0],
           });
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
             3700
           );
         });
+    } else {
+      setErrorMessage({ success: false, message: "duplicate info" });
+      return setTimeout(
+        () => setErrorMessage({ success: null, message: null }),
+        3700
+      );
     }
   };
 
@@ -148,7 +162,7 @@ const App = () => {
         .then(() => {
           setPersons([...persons.filter((p) => p.id !== id)]);
           setErrorMessage({
-            success: false,
+            success: true,
             message: `removed ${person.name.toUpperCase()} from phonebook`,
           });
           setTimeout(
@@ -156,8 +170,8 @@ const App = () => {
             3700
           );
         })
-        .catch((error) => {
-          setErrorMessage({ success: false, message: error.message });
+        .catch((err) => {
+          setErrorMessage({ success: false, message: err.message });
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
             3700
@@ -166,7 +180,7 @@ const App = () => {
     } else {
       setErrorMessage({
         success: true,
-        message: `declined deleting ${person.name}'s contact`,
+        message: `declined deleting ${person.name.toUpperCase()}'s contact`,
       });
       return setTimeout(
         () => setErrorMessage({ success: null, message: null }),
@@ -179,16 +193,15 @@ const App = () => {
 
   const formNameChange = (event) => setName(event.target.value);
   const formNumChange = (event) => setNumber(event.target.value);
-  const formEmailChange = (event) => setEmail(event.target.value);
-  const formAddressChange = (event) => setAddress(event.target.value);
-  const formBirthdateChange = (event) => setBirthdate(event.target.value);
-  const formGenderChange = (value) => setGender(value);
 
   return (
     <Aux>
       <h1>Phonebook</h1>
       <Notification message={errorMessage} />
-      <input placeholder="filter by..." onChange={changeFilterQuery} />
+      <label>
+        Filter By
+        <input onChange={changeFilterQuery} value={filterQuery} />
+      </label>
       <h1>add new contact</h1>
       <Form
         submit={submitHandler}
@@ -196,14 +209,6 @@ const App = () => {
         nameChange={formNameChange}
         number={number}
         numChange={formNumChange}
-        email={email}
-        emailChange={formEmailChange}
-        address={address}
-        addressChange={formAddressChange}
-        birthdate={birthdate}
-        birthdateChange={formBirthdateChange}
-        gender={gender}
-        genderChange={formGenderChange}
       />
       <h1>numbers</h1>
       <div className="phonebook-entries">
