@@ -39,10 +39,10 @@ const App = () => {
     const newPerson = {
       name: name,
       number: number,
-      email: email,
-      address: address,
-      birthdate: birthdate,
-      gender: gender,
+      // email: email,
+      // address: address,
+      // birthdate: birthdate,
+      // gender: gender,
       id: persons.length + 1,
       date: new Date(),
     };
@@ -66,11 +66,13 @@ const App = () => {
           .update(checkPerson.id, newPerson)
           .then((changedPerson) => {
             setPersons([
-              ...persons.map((p) => (p.id !== id ? p : changedPerson)),
+              ...persons.map((p) =>
+                p.id !== newPerson.id ? p : changedPerson
+              ),
             ]);
             setErrorMessage({
               success: true,
-              message: `changed ${personToChange.name.toUpperCase()}'s number`,
+              message: `changed ${newPerson.name.toUpperCase()}'s number`,
             });
             setTimeout(
               () => setErrorMessage({ success: null, message: null }),
@@ -162,8 +164,8 @@ const App = () => {
         .then(() => {
           setPersons([...persons.filter((p) => p.id !== id)]);
           setErrorMessage({
-            success: true,
-            message: `removed ${person.name.toUpperCase()} from phonebook`,
+            success: false,
+            message: `removed ${person.name.toUpperCase()}'s details`,
           });
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
