@@ -1,21 +1,9 @@
 import React from "react";
 import "./Notification.css";
 
-const falseMessage = {
-  backgroundColor: "white",
-  borderColor: "red",
-  color: "red",
+const errStyle = {
   animationName: "popDown",
-  animationDuration: "3s",
-  animationTimingFunction: "ease-in-out",
-};
-
-const trueMessage = {
-  backgroundColor: "white",
-  borderColor: "green",
-  color: "green",
-  animationName: "popDown",
-  animationDuration: "3s",
+  animationDuration: "3.5s",
   animationTimingFunction: "ease-in-out",
 };
 
@@ -24,13 +12,13 @@ const Notification = (props) => {
 
   if (success && message) {
     return (
-      <p style={trueMessage} className="pop-up">
+      <p style={{ ...errStyle, color: "green" }} className="pop-up">
         {message}
       </p>
     );
   } else if (!success && message) {
     return (
-      <p style={falseMessage} className="pop-up">
+      <p style={{ ...errStyle, color: "red" }} className="pop-up">
         {message}
       </p>
     );

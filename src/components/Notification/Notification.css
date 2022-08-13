@@ -1,16 +1,16 @@
 .pop-up {
   position: absolute;
-  border-width: 4px;
-  border-style: solid;
+  border: 4px solid;
   border-radius: 12px;
-  border-color: transparent;
   color: transparent;
-  background-color: transparent;
+  background-color: white;
   top: 8px;
-  left: 37%;
+  left: 37.5%;
   padding: 12px 24px;
-  max-width: 32ch;
+  width: max-content;
+  max-width: 22ch;
   font-size: 1.25rem;
+  text-align: center;
   transform: translateY(-200%);
 }
 

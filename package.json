@@ -19,9 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "build:ui": "rm -rf build && npm run build && cd ../phonebookApp_backend && rm -rf build && cd ../phonebookApp_frontend && cp -r build ../phonebookApp_backend",
-    "deploy": "git push heroku master",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
+    "build:ui": "npm run build && move build ../phonebookApp_backend",
     "logs:prod": "heroku logs --tail",
     "eject": "react-scripts eject"
   },
