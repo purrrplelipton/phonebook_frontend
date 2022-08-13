@@ -1,3 +1,9 @@
+####
+
+TL:DR
+
+this is the frontend [https://github.com/purrrplelipton/phonebookApp_backend.git] is based on
+
 ### Available Scripts
 
 In the project directory, you can run:
