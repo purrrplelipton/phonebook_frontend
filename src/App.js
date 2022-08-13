@@ -117,7 +117,6 @@ const App = () => {
           );
         })
         .catch((err) => {
-          console.log(err.response.data);
           const [, , message] = err.response.data.error.split(/:\s/);
           setErrorMessage({
             success: false,
@@ -166,7 +165,7 @@ const App = () => {
     } else {
       setErrorMessage({
         success: true,
-        message: `declined deleting ${person.name}'s contact`,
+        message: `declined deleting ${person.name.toUpperCase()}'s contact`,
       });
       return setTimeout(
         () => setErrorMessage({ success: null, message: null }),
