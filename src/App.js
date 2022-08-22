@@ -39,25 +39,12 @@ const App = () => {
     const newPerson = {
       name: name,
       number: number,
-      // email: email,
-      // address: address,
-      // birthdate: birthdate,
-      // gender: gender,
       id: persons.length + 1,
-      date: new Date(),
     };
 
     if (checkPerson) {
-      console.log(
-        Object.keys(newPerson).forEach((x) => {
-          checkPerson[x]
-            ? console.log(checkPerson[x])
-            : console.log("personObj doesnt have", x, "property");
-        })
-      );
-
       const confirmChange = window.confirm(
-        `${checkPerson.name.toUpperCase()} already in the phonebook, replace changed details ?`
+        `${checkPerson.name.toUpperCase()} already exists, change number?`
       );
 
       if (confirmChange) {
@@ -65,11 +52,9 @@ const App = () => {
         personsService
           .update(checkPerson.id, newPerson)
           .then((changedPerson) => {
-            setPersons([
-              ...persons.map((p) =>
-                p.id !== newPerson.id ? p : changedPerson
-              ),
-            ]);
+            setPersons(
+              persons.map((p) => (p.id !== newPerson.id ? p : changedPerson))
+            );
             setErrorMessage({
               success: true,
               message: `changed ${newPerson.name.toUpperCase()}'s number`,
@@ -89,6 +74,15 @@ const App = () => {
               $clusterTime,
               operationtime,
             } = err.response.data.error;
+            console.log({
+              ok,
+              code,
+              codeName,
+              keyPattern,
+              keyValue,
+              $clusterTime,
+              operationtime,
+            });
             setErrorMessage({
               success: false,
               message: `a contact with ${Object.keys(keyValue)[0]}: ${
@@ -97,7 +91,7 @@ const App = () => {
             });
             setTimeout(
               () => setErrorMessage({ success: null, message: null }),
-              37000
+              3700
             );
           });
       } else {
@@ -110,9 +104,7 @@ const App = () => {
           3700
         );
       }
-    } else if (
-      !persons.find((p) => p.name.toLowerCase() === name.toLowerCase())
-    ) {
+    } else {
       const personObject = {
         name: name,
         number: number,
@@ -134,22 +126,16 @@ const App = () => {
           );
         })
         .catch((err) => {
-          const [, , message] = err.response.data.error.split(/:\s/);
+          const [, , message] = err.response.data.error.split(/:\s/u);
           setErrorMessage({
             success: false,
-            message: message.split(/,\s/)[0],
+            message: message.split(/,\s/u)[0],
           });
           setTimeout(
             () => setErrorMessage({ success: null, message: null }),
             3700
           );
         });
-    } else {
-      setErrorMessage({ success: false, message: "duplicate info" });
-      return setTimeout(
-        () => setErrorMessage({ success: null, message: null }),
-        3700
-      );
     }
   };
 
